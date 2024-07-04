@@ -20,7 +20,11 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  return res.send("Hello World");
+  return res.json({
+    message: "Hello World",
+    title: "Infloso",
+    version: "0.0.0",
+  });
 });
 
 // app.use("/api/", router);
