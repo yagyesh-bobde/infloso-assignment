@@ -129,7 +129,7 @@ router.get("/verify-email/:token", async (req, res) => {
 });
 
 // Password reset request route (now requires authentication)
-router.post("/reset-password-request", authenticateUser, async (req, res) => {
+router.get("/reset-password-request", authenticateUser, async (req, res) => {
   try {
     const user = res.locals.user;
     const resetToken = uuidv4();
