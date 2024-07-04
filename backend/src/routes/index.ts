@@ -114,8 +114,10 @@ export default (app: Express) => {
       });
 
       res.json({ token });
-    } catch (error) {
-      res.status(500).json({ message: "Error logging in", error });
+    } catch (error: {
+      message: string;
+    }) {
+      res.status(500).json({ message: "Error logging in", error: error.message });
     }
   });
 
