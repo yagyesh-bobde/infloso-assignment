@@ -5,14 +5,14 @@ const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID!;
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET!;
 const DB_URL = process.env.DB_URL!;
 const PORT = process.env.PORT || 5000;
+const DATABASE_URL = process.env.DATABASE_URL!;
+const DIRECT_URL = process.env.DIRECT_URL!;
 
 export default {
-  port: PORT,
-  DB_URL: DB_URL,
+  PORT,
+  DATABASE_URL,
+  DIRECT_URL,
   logLevel: "info",
   JWT_SECRET,
   SALT_ROUNDS,
-  MIN_PASSWORD_LENGTH: MIN_PASSWORD_LENGTH,
-  RAZORPAY_KEY_ID,
-  RAZORPAY_KEY_SECRET,
 };

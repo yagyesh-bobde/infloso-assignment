@@ -5,7 +5,7 @@ import config from "./config/default";
 import { PrismaClient } from "@prisma/client";
 
 const app = express();
-const port = config.port;
+const port = config.PORT;
 
 export const prismaClient = new PrismaClient({
   log: ["query", "info", "warn", "error"],
