@@ -55,7 +55,7 @@ export default (app: Express) => {
       }
 
       if (!emailToken) {
-        emailToken = user.emailVerificationToken;
+        emailToken = user.emailVerificationToken ?? "";
       }
 
       // Generate token for both new and existing users
