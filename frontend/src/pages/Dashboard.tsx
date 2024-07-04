@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Home, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
+// import { useToast } from "../components/ui/use-toast";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("home");
-
-  const NavItem = ({ icon: Icon, label, isActive, onClick }) => (
+  // const { toast } = useToast();
+  const NavItem = ({ icon: Icon, label, isActive, onClick }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    icon: any;
+    label: string;
+    isActive: boolean;
+    onClick: () => void;
+  }) => (
     <Button
       variant={isActive ? "secondary" : "ghost"}
       className="w-full justify-start"
@@ -87,7 +95,9 @@ const Dashboard = () => {
         </div>
         <div className="flex items-center gap-4">
           <Button>Reset Password</Button>
-          <Button variant={"destructive"}>Logout</Button>
+          <Link to="/sign-in">
+            <Button variant={"destructive"}>Logout</Button>
+          </Link>
         </div>
       </div>
     </div>

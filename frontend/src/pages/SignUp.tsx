@@ -11,6 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../components/ui/form";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../components/ui/use-toast";
 
 // Define the schema for form validation
 const signUpSchema = z.object({
@@ -20,7 +22,7 @@ const signUpSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
+    .min(3, { message: "Password must be at least 8 characters long" }),
 });
 
 const SignUp = () => {
@@ -32,10 +34,21 @@ const SignUp = () => {
       password: "",
     },
   });
+  const navigate = useNavigate()
 
-  const onSubmit = (data) => {
+  const { toast } = useToast();
+
+  const onSubmit = (data: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
     console.log(data);
-    // Here you would typically send the data to your API
+    toast({
+      title: "Sign Up Successful",
+      description: "Created your account successfully. Please sign in to continue.",
+    })
+    navigate("/sign-in")
   };
 
   return (
