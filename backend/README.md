@@ -4,6 +4,8 @@
 
 Connectverse API is a Node.js-based backend for a fictional social media platform. It provides user authentication, post creation, and commenting functionalities using Express.js and Prisma ORM with PostgreSQL.
 
+LIVE AT: https://infloso-assignment.vercel.app
+
 ## Features
 
 - User registration and authentication
@@ -62,6 +64,8 @@ Connectverse API is a Node.js-based backend for a fictional social media platfor
 ## API Endpoints
 
 ### Authentication
+
+BASE_URL = https://infloso-assignment.vercel.app
 
 #### POST /signup
 - Register a new user or log in an existing user
