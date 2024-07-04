@@ -8,10 +8,10 @@ Connectverse API is a Node.js-based backend for a fictional social media platfor
 
 - User registration and authentication
 - Email verification
-- Password reset functionality
+- Secure password reset functionality
 - JWT-based session management
-- Post creation and retrieval
-- Commenting on posts
+- Post creation and retrieval (to be implemented)
+- Commenting on posts (to be implemented)
 
 ## Technologies Used
 
@@ -57,7 +57,7 @@ Connectverse API is a Node.js-based backend for a fictional social media platfor
    npm run dev
    ```
 
-2. The API will be available at `http://localhost:5000` (or whichever port you've configured).
+2. The API will be available at `http://localhost:3000` (or whichever port you've configured).
 
 ## API Endpoints
 
@@ -102,40 +102,28 @@ Connectverse API is a Node.js-based backend for a fictional social media platfor
     }
     ```
 
-#### GET /verify-email/:token
-- Verify user's email address
-- Response:
-  - Status: 200 OK
-  - Body:
-    ```json
-    {
-      "message": "Email verified successfully"
-    }
-    ```
-
 #### POST /reset-password-request
 - Request a password reset
-- Request body:
-  ```json
-  {
-    "email": "string"
-  }
-  ```
+- Authentication: Required (JWT token in Authorization header)
+- Request body: Empty
 - Response:
   - Status: 200 OK
   - Body:
     ```json
     {
-      "message": "Password reset email sent"
+      "message": "Password reset email sent",
+      "resetToken": "string"
     }
     ```
 
-#### POST /reset-password/:token
+#### POST /reset-password
 - Reset user's password
+- Authentication: Required (JWT token in Authorization header)
 - Request body:
   ```json
   {
-    "newPassword": "string"
+    "newPassword": "string",
+    "resetToken": "string"
   }
   ```
 - Response:
@@ -191,6 +179,16 @@ Connectverse API is a Node.js-based backend for a fictional social media platfor
   - Status: 200 OK
   - Body: Array of comment objects
 
+## Authentication
+
+The API uses JWT (JSON Web Tokens) for authentication. To authenticate requests, include the JWT token in the Authorization header of your HTTP request:
+
+```
+Authorization: Bearer <your-token-here>
+```
+
+You receive this token when you successfully sign up or log in.
+
 ## Error Handling
 
 All endpoints return appropriate HTTP status codes and error messages in case of failures.
@@ -200,7 +198,8 @@ All endpoints return appropriate HTTP status codes and error messages in case of
 - Passwords are hashed using bcrypt before storage
 - JWT is used for maintaining user sessions
 - Email verification is required for new accounts
-- Password reset functionality is available
+- Password reset functionality requires authentication and uses a separate reset token
+- All sensitive routes are protected and require authentication
 
 ## Contributing
 

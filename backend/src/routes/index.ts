@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 import { prismaClient } from "..";
+import authenticateUser from "../middleware/auth.middleware";
 
 const router = express.Router();
 
@@ -127,17 +128,10 @@ router.get("/verify-email/:token", async (req, res) => {
   }
 });
 
-// Password reset request route
-router.post("/reset-password-request", async (req, res) => {
-  const { email } = req.body;
-
+// Password reset request route (now requires authentication)
+router.post("/reset-password-request", authenticateUser, async (req, res) => {
   try {
-    const user = await prismaClient.user.findUnique({ where: { email } });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
+    const user = res.locals.user;
     const resetToken = uuidv4();
     const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
 
@@ -150,23 +144,23 @@ router.post("/reset-password-request", async (req, res) => {
     });
 
     // Send password reset email
-    await sendPasswordResetEmail(email, resetToken);
+    await sendPasswordResetEmail(user.email, resetToken);
 
-    res.json({ message: "Password reset email sent" });
+    res.json({ message: "Password reset email sent", resetToken });
   } catch (error) {
     res.status(500).json({ message: "Error requesting password reset", error });
   }
 });
 
-// Password reset route
-router.post("/reset-password/:token", async (req, res) => {
-  const { token } = req.params;
-  const { newPassword } = req.body;
+// Password reset route (now requires authentication)
+router.post("/reset-password", authenticateUser, async (req, res) => {
+  const { newPassword, resetToken } = req.body;
 
   try {
     const user = await prismaClient.user.findFirst({
       where: {
-        resetPasswordToken: token,
+        id: res.locals.user.id,
+        resetPasswordToken: resetToken,
         resetPasswordExpires: { gt: new Date() },
       },
     });
